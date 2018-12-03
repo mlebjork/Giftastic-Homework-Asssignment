@@ -13,9 +13,10 @@ $(document).ready(function () {
 
     }
     addButtons(topics)
+    //when user clicks on #userAddedFail the val of userFail gets added to topics and then we recall the addButtons (topics). this all need to happen in the function.  .empty()  buttonsGoHere Do this!!
 
 
-    $("button").on("click", function () {
+    $(".fails").on("click", function () {
 
         var fails = $(this).attr("data-fails");
         console.log(fails);
@@ -47,8 +48,11 @@ $(document).ready(function () {
                     // Creating and storing an image tag
                     var failImage = $("<img>");
                     // Setting the src attribute of the image to a property pulled off the result item
-                    failImage.attr("src", results[i].images.fixed_height.url);
-
+                    failImage.attr("src", results[i].images.fixed_height_still.url);
+                    failImage.attr("data-still", results[i].images.fixed_height_still.url);
+                    failImage.attr("data-animate", results[i].images.fixed_height.url);
+                    failImage.attr("data-state", "still");
+                    failImage.addClass("gif");
                     // Appending the paragraph and image tag to the animalDiv
                     failDiv.append(p);
                     failDiv.append(failImage);
@@ -56,29 +60,31 @@ $(document).ready(function () {
                     // Prependng the animalDiv to the HTML page in the "#gifs-appear-here" div
                     $("#gifs-appear-here").prepend(failDiv);
 
-                    
+                    // Empty gifs area each time user clicks on a new button
                 }
             });
     });
 
+    $(document).on("click", ".gif", function() {
+        console.log("Here");
+        
+            var state = $(this).attr("data-state");
+        
+            if (state === "still") {
+                $(this).attr("src", $(this).attr("data-animate"));
+                $(this).attr("data-state", "animate");
+        
+            } else {
+                $(this).attr("src", $(this).attr("data-still"));
+                $(this).attr("data-state", "still");
+        
+            }
+        });
+        
     
 
 });
 
-$(".gif").on("click", function () {
-
-    var state = $(this).attr("data-state");
-
-    if (state === "still") {
-        $(this).attr("src", $(this).attr("data-animate"));
-        $(this).attr("data-state", "animate");
-
-    } else {
-        $(this).attr("src", $(this).attr("data-still"));
-        $(this).attr("data-state", "still");
-
-    }
-});
 
 
 
