@@ -2,6 +2,7 @@ var topics = ["parent", "mtb", "dog", "baby", "car", "cat"]
 $(document).ready(function () {
 
     function addButtons(array) {
+        $("#buttonsGoHere").empty();
         for (var i = 0; i < array.length; i++) {
             var failButtons = $("<button>")
             failButtons.addClass("fails")
@@ -13,13 +14,22 @@ $(document).ready(function () {
 
     }
     addButtons(topics)
-    //when user clicks on #userAddedFail the val of userFail gets added to topics and then we recall the addButtons (topics). this all need to happen in the function.  .empty()  buttonsGoHere Do this!!
+    //when user clicks on #userAdded the val of userFail gets added to topics and then we recall the addButtons (topics)
+    $("#userAdded").on("submit", function (event) {
+        event.preventDefault();
+        var userInput=$("#userFail").val().trim();
+        topics.push (userInput);
+        addButtons (topics);
+       
+        $("#userFail").val("")
+        
+    })
 
-
-    $(".fails").on("click", function () {
+    $("#buttonsGoHere").on("click",".fails", function () {
 
         var fails = $(this).attr("data-fails");
         console.log(fails);
+        $("#gifs-appear-here").empty();
 
         var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + fails + "+fails&api_key=7sfn18qMfYCKSxxRSvW2t2dadCRIQ8dp&limit=10";
         // do your ajax call with your queryURL
